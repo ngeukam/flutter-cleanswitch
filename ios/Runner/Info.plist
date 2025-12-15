@@ -44,7 +44,6 @@
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
-	<true/>
 	<!-- New lines -->
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>This app needs location access to track your position</string>
@@ -56,5 +55,6 @@
 	<string>Need photos permission to upload images</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Need camera permission to take photos</string>
+	<true/>
 </dict>
 </plist>
