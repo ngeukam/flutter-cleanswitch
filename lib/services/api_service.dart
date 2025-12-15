@@ -8,8 +8,8 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 class ApiService {
   static final String? _baseUrl = dotenv.env['API_BASE_URL'];
   final FlutterSecureStorage _storage = const FlutterSecureStorage();
-
   Future<Map<String, String>> _getHeaders() async {
+    print('API Base URL: $_baseUrl');
     final token = await _storage.read(key: 'access_token');
     if (token == null) {
       return {'Content-Type': 'application/json'};
@@ -22,6 +22,7 @@ class ApiService {
 
   Future<http.Response> post(String endpoint, dynamic data) async {
     final headers = await _getHeaders();
+    print('POST $_baseUrl$endpoint with data: $data');
     return await http.post(
       Uri.parse('$_baseUrl$endpoint'),
       headers: headers,
@@ -55,7 +56,6 @@ class ApiService {
     final headers = {'Authorization': 'Bearer $token'};
 
     final uploadUrl = '$_baseUrl/uploads/';
-    print('Uploading to $uploadUrl');
 
     final results = <Map<String, dynamic>>[];
 
@@ -64,7 +64,6 @@ class ApiService {
         var request = http.MultipartRequest('POST', Uri.parse(uploadUrl));
         request.headers.addAll(headers);
 
-        print('Uploading file: ${file.path}');
         request.files.add(await http.MultipartFile.fromPath('file', file.path));
 
         final response = await request.send();

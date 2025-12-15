@@ -14,6 +14,8 @@ class AuthService {
       'username': username,
       'password': password,
     });
+    // print('Login username: ${username}');
+    print('Login body: ${response.body}');
     if (response.statusCode == 200) {
       final data = jsonDecode(response.body);
       if (data['access'] != null) {
