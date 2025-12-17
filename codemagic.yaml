@@ -4,11 +4,11 @@ workflows:
     environment:
       ios_signing:
         provisioning_profiles:
-          - Cleanswitch Staff ID ios_app_store 1764841125
+          - ProvProfile_fko
         certificates:
           - Distribute_Certificate
       integrations:
-        app_store_connect: Personal
+        app_store_connect: Codemagic API Key
     scripts:
       - script: xcode-project use-profiles
       - script: flutter packages pub get
@@ -31,11 +31,11 @@ workflows:
     environment:
       ios_signing:
         provisioning_profiles:
-          - Cleanswitch Staff ID ios_app_store 1764841125
+          - ProvProfile_fko
         certificates:
           - Distribute_Certificate
       integrations:
-        app_store_connect: Personal
+        app_store_connect: Codemagic API Key
     scripts:
       - script: xcode-project use-profiles
       - script: flutter packages pub get
