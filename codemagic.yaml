@@ -1,0 +1,59 @@
+workflows:
+  ios-method-1-testflight:
+    name: iOS TestFlight Publishing
+    environment:
+      ios_signing:
+        provisioning_profiles:
+          - ProvProfile_fko
+        certificates:
+          - Distribution_certificate
+    scripts:
+      - script: keychain initialize
+      - script: keychain add-certificates
+      - script: xcode-project use-profiles
+      - script: flutter packages pub get
+      - name: Flutter build ipa
+        script: |
+          flutter build ipa --export-options-plist=/Users/builder/export_options.plist
+    artifacts:
+      - build/ios/ipa/*.ipa
+    publishing:
+      email:
+        recipients:
+          - fko.cleanswitch@gmail.com
+      app_store_connect:
+        api_key: $APP_STORE_CONNECT_PRIVATE_KEY
+        key_id: $APP_STORE_CONNECT_KEY_IDENTIFIER
+        issuer_id: $APP_STORE_CONNECT_ISSUER_ID
+        submit_to_testflight: true
+        beta_groups:
+          - QA
+          - team
+
+  ios-method-1-appstore:
+    name: iOS App Store Publishing
+    environment:
+      ios_signing:
+        provisioning_profiles:
+          - ProvProfile_fko
+        certificates:
+          - Distribution_certificate
+    scripts:
+      - script: keychain initialize
+      - script: keychain add-certificates
+      - script: xcode-project use-profiles
+      - script: flutter packages pub get
+      - name: Flutter build ipa
+        script: |
+          flutter build ipa --export-options-plist=/Users/builder/export_options.plist
+    artifacts:
+      - build/ios/ipa/*.ipa
+    publishing:
+      email:
+        recipients:
+          - fko.cleanswitch@gmail.com
+      app_store_connect:
+        api_key: $APP_STORE_CONNECT_PRIVATE_KEY
+        key_id: $APP_STORE_CONNECT_KEY_IDENTIFIER
+        issuer_id: $APP_STORE_CONNECT_ISSUER_ID
+        submit_to_app_store: true
