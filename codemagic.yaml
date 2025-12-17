@@ -1,50 +1,12 @@
 workflows:
-  testflight:
-    name: Publishing to TestFlight workflow
+  ios:
+    name: iOS Build
+    max_build_duration: 60
     environment:
-      ios_signing:
-        provisioning_profiles:
-          - ProvProfile_fko
-        certificates:
-          - Distribute_Certificate
-      integrations:
-        app_store_connect: Codemagic API Key
+      flutter: stable
+      xcode: latest
     scripts:
-      - script: xcode-project use-profiles
-      - script: flutter packages pub get
-      - name: Flutter build ipa
-        script: |
-          flutter build ipa --export-options-plist=/Users/builder/export_options.plist
+      - flutter pub get
+      - flutter build ios --release --no-codesign
     artifacts:
       - build/ios/ipa/*.ipa
-    publishing:
-      app_store_connect:
-        auth: integration
-        submit_to_testflight: true
-        beta_groups:
-          - QA
-          - team
-        app_store: ...
-
-  app-store:
-    name: Publishing to App Store workflow
-    environment:
-      ios_signing:
-        provisioning_profiles:
-          - ProvProfile_fko
-        certificates:
-          - Distribute_Certificate
-      integrations:
-        app_store_connect: Codemagic API Key
-    scripts:
-      - script: xcode-project use-profiles
-      - script: flutter packages pub get
-      - name: Flutter build ipa
-        script: |
-          flutter build ipa --export-options-plist=/Users/builder/export_options.plist
-    artifacts:
-      - build/ios/ipa/*.ipa
-    publishing:
-      app_store_connect:
-        auth: integration
-        submit_to_app_store: true
