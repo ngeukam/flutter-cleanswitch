@@ -3,21 +3,14 @@ workflows:
     name: Publishing to TestFlight workflow
     environment:
       ios_signing:
-        provisioning_profiles:
-          - ProvProfile_fko
-        certificates:
-          - Distribution_certificate
+        distribution_type: app_store  # Add this line
     scripts:
-      - name: Set up keychain
-        script: keychain initialize
-      - script: xcode-project use-profiles
       - script: flutter packages pub get
-      - name: Flutter build ipa
+      - name: Build iOS
         script: |
           flutter build ipa --release --no-codesign
-      - name: Code sign
+      - name: Code sign with automatic profiles
         script: |
-          cd ios
           xcode-project use-profiles
     artifacts:
       - build/ios/ipa/*.ipa
@@ -38,21 +31,14 @@ workflows:
     name: Publishing to App Store workflow
     environment:
       ios_signing:
-        provisioning_profiles:
-          - ProvProfile_fko
-        certificates:
-          - Distribution_certificate
+        distribution_type: app_store  # Add this line
     scripts:
-      - name: Set up keychain
-        script: keychain initialize
-      - script: xcode-project use-profiles
       - script: flutter packages pub get
-      - name: Flutter build ipa
+      - name: Build iOS
         script: |
           flutter build ipa --release --no-codesign
-      - name: Code sign
+      - name: Code sign with automatic profiles
         script: |
-          cd ios
           xcode-project use-profiles
     artifacts:
       - build/ios/ipa/*.ipa
