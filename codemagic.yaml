@@ -4,43 +4,21 @@ workflows:
     environment:
       ios_signing:
         provisioning_profiles:
-          - ProvProfile_fko
+          - com.fko-cleanswitch.cleanswitch-staff
         certificates:
-          - Development_certificate
+          - Distribution_certificate
     scripts:
       - name: Set up keychain
         script: keychain initialize
       - script: xcode-project use-profiles
       - script: flutter packages pub get
-      - name: Create export options plist
-        script: |
-          cat > /Users/builder/export_options.plist <<EOF
-          <?xml version="1.0" encoding="UTF-8"?>
-          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-          <plist version="1.0">
-          <dict>
-            <key>compileBitcode</key>
-            <false/>
-            <key>destination</key>
-            <string>export</string>
-            <key>method</key>
-            <string>app-store</string>
-            <key>signingStyle</key>
-            <string>manual</string>
-            <key>stripSwiftSymbols</key>
-            <true/>
-            <key>teamID</key>
-            <string>438QFJ49SK</string>
-            <key>uploadBitcode</key>
-            <false/>
-            <key>uploadSymbols</key>
-            <true/>
-          </dict>
-          </plist>
-          EOF
       - name: Flutter build ipa
         script: |
-          flutter build ipa --export-options-plist=/Users/builder/export_options.plist
+          flutter build ipa --release --no-codesign
+      - name: Code sign
+        script: |
+          cd ios
+          xcode-project use-profiles
     artifacts:
       - build/ios/ipa/*.ipa
     publishing:
@@ -61,43 +39,21 @@ workflows:
     environment:
       ios_signing:
         provisioning_profiles:
-          - ProvProfile_fko
+          - com.fko-cleanswitch.cleanswitch-staff
         certificates:
-          - Development_certificate
+          - Distribution_certificate
     scripts:
       - name: Set up keychain
         script: keychain initialize
       - script: xcode-project use-profiles
       - script: flutter packages pub get
-      - name: Create export options plist
-        script: |
-          cat > /Users/builder/export_options.plist <<EOF
-          <?xml version="1.0" encoding="UTF-8"?>
-          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-          <plist version="1.0">
-          <dict>
-            <key>compileBitcode</key>
-            <false/>
-            <key>destination</key>
-            <string>export</string>
-            <key>method</key>
-            <string>app-store</string>
-            <key>signingStyle</key>
-            <string>manual</string>
-            <key>stripSwiftSymbols</key>
-            <true/>
-            <key>teamID</key>
-            <string>438QFJ49SK</string>
-            <key>uploadBitcode</key>
-            <false/>
-            <key>uploadSymbols</key>
-            <true/>
-          </dict>
-          </plist>
-          EOF
       - name: Flutter build ipa
         script: |
-          flutter build ipa --export-options-plist=/Users/builder/export_options.plist
+          flutter build ipa --release --no-codesign
+      - name: Code sign
+        script: |
+          cd ios
+          xcode-project use-profiles
     artifacts:
       - build/ios/ipa/*.ipa
     publishing:
