@@ -7,8 +7,8 @@ workflows:
           - ProvProfile_fko
         certificates:
           - Development_certificate
-      integrations:
-        app_store_connect: Codemagic API Key
+      groups:
+        - integration
     scripts:
       - script: xcode-project use-profiles
       - script: flutter packages pub get
@@ -18,13 +18,17 @@ workflows:
     artifacts:
       - build/ios/ipa/*.ipa
     publishing:
+      email:
+        recipients:
+          - fko.cleanswitch@gmail.com
       app_store_connect:
-        auth: integration
+        api_key: $APP_STORE_CONNECT_PRIVATE_KEY
+        key_id: $APP_STORE_CONNECT_KEY_IDENTIFIER
+        issuer_id: $APP_STORE_CONNECT_ISSUER_ID
         submit_to_testflight: true
         beta_groups:
           - QA
           - team
-        app_store: ...
 
   app-store:
     name: Publishing to App Store workflow
@@ -34,8 +38,8 @@ workflows:
           - ProvProfile_fko
         certificates:
           - Development_certificate
-      integrations:
-        app_store_connect: Codemagic API Key
+      groups:
+        - integration
     scripts:
       - script: xcode-project use-profiles
       - script: flutter packages pub get
@@ -45,6 +49,11 @@ workflows:
     artifacts:
       - build/ios/ipa/*.ipa
     publishing:
+      email:
+        recipients:
+          - fko.cleanswitch@gmail.com
       app_store_connect:
-        auth: integration
+        api_key: $APP_STORE_CONNECT_PRIVATE_KEY
+        key_id: $APP_STORE_CONNECT_KEY_IDENTIFIER
+        issuer_id: $APP_STORE_CONNECT_ISSUER_ID
         submit_to_app_store: true
