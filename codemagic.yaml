@@ -3,8 +3,10 @@ workflows:
     name: iOS TestFlight Publishing
     environment:
       ios_signing:
-        distribution_type: app_store
-        bundle_identifier: com.fko-cleanswitch.cleanswitch-staff
+        provisioning_profiles:
+          - ProvProfile_fko
+        certificates:
+          - Distribution_certificate
     scripts:
       - script: keychain initialize
       - script: keychain add-certificates
@@ -32,8 +34,10 @@ workflows:
     name: iOS App Store Publishing
     environment:
       ios_signing:
-        distribution_type: app_store
-        bundle_identifier: com.fko-cleanswitch.cleanswitch-staff
+        provisioning_profiles:
+          - ProvProfile_fko
+        certificates:
+          - Distribution_certificate
     scripts:
       - script: keychain initialize
       - script: keychain add-certificates
